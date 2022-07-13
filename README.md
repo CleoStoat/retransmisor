@@ -1,4 +1,4 @@
-# Python Telegram Bot Template
+# Retransmisor de mensajes a chats de Telegram
 
 ## Instalacion
 1. Crear un entorno virtual con
