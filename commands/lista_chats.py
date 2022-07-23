@@ -4,6 +4,7 @@ import config
 from models.chat import Chat
 from telegram import Update
 from telegram.ext import ContextTypes
+from telegram.helpers import escape_markdown
 
 logger = logging.getLogger()
 
@@ -24,11 +25,13 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         chat for chat in context.bot_data["chats"] if not chat.autorizado
     ]
 
-    text = "Chats autorizados:\n"
+    text = escape_markdown("Chats autorizados:\n")
     for chat in chats_autorizados:
-        text += f"Chat: {chat.nombre} - id: {chat.id_chat}\n"
-    text += "\nChats no autorizados:\n"
+        aux = escape_markdown(f"Chat: {chat.nombre} - id: ")
+        text += f"{aux}`{chat.id_chat}`{escape_markdown('\n')}"
+    text += escape_markdown("\nChats no autorizados:\n")
     for chat in chats_no_autorizados:
-        text += f"Chat: {chat.nombre} - id: {chat.id_chat}\n"
+        aux = escape_markdown(f"Chat: {chat.nombre} - id: ")
+        text += f"{aux}`{chat.id_chat}`{escape_markdown('\n')}"
 
-    await update.message.reply_text(text)
+    await update.message.reply_text(text, parse_mode="MarkdownV2")
