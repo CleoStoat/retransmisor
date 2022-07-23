@@ -11,7 +11,7 @@ from utils.models_setup import setup_models
 from telegram.helpers import escape_markdown
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, PicklePersistence
 
 from jobs.retransmision import retransmision_job
 
@@ -66,8 +66,26 @@ async def chatmemeberhandler(
         Chat(id_chat=id_chat, nombre=nombre_chat, autorizado=False)
     )
 
-
 def main() -> None:
+    application = (
+        Application.builder()
+        .token(config.BOT_TOKEN)
+        .persistence(PicklePersistence("db"))
+        .build()
+    )
+
+    application.job_queue.run_once(callback=set_bot_commands, when=1, data=application)
+    application.job_queue.run_once(callback=setup_models, when=1)
+
+    application.job_queue.run_repeating(
+        callback=retransmision_job, interval=timedelta(minutes=1), first=1
+    )
+
+    application.add_handler(ChatMemberHandler(callback=chatmemeberhandler))
+
+    application.run_polling()
+
+def mainold() -> None:
     sqlite_name = "newdb.db"
     sqlite_url = "sqlite:///./" + sqlite_name
     application = (
