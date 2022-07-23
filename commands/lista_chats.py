@@ -28,10 +28,12 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text = escape_markdown("Chats autorizados:\n")
     for chat in chats_autorizados:
         aux = escape_markdown(f"Chat: {chat.nombre} - id: ")
-        text += f"{aux}`{chat.id_chat}`{escape_markdown('\n')}"
+        text += f"{aux}`{chat.id_chat}`"
+        text += escape_markdown('\n')
     text += escape_markdown("\nChats no autorizados:\n")
     for chat in chats_no_autorizados:
         aux = escape_markdown(f"Chat: {chat.nombre} - id: ")
-        text += f"{aux}`{chat.id_chat}`{escape_markdown('\n')}"
+        text += f"{aux}`{chat.id_chat}`"
+        text += escape_markdown('\n')
 
     await update.message.reply_text(text, parse_mode="MarkdownV2")
