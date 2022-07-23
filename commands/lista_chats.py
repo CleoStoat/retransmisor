@@ -36,4 +36,6 @@ async def command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         text += f"{aux}`{escape_markdown(str(chat.id_chat))}`"
         text += escape_markdown('\n')
 
+    print(text)
+
     await update.message.reply_text(text, parse_mode="MarkdownV2")
