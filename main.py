@@ -1,3 +1,5 @@
+import sys
+
 from datetime import timedelta
 import logging
 
@@ -108,4 +110,8 @@ def mainold() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    if sys.argv > 1:
+        mainold()
+    else:
+        main()
+
