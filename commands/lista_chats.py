@@ -1,10 +1,14 @@
+from ensurepip import version
+from functools import partial
 import logging
 
 import config
 from models.chat import Chat
 from telegram import Update
 from telegram.ext import ContextTypes
-from telegram.helpers import escape_markdown
+from telegram.helpers import escape_markdown as em
+
+escape_markdown = partial(em, version=2)
 
 logger = logging.getLogger()
 
