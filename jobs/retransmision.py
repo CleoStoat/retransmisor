@@ -17,7 +17,7 @@ def es_hora(horario: str) -> bool:
 
 
 def es_dia(horario: str) -> bool:
-    letras_dias = ["L", "M" "X" "J", "V", "S", "D"]
+    letras_dias = ["L", "M", "X", "J", "V", "S", "D"]
     num_dia_actual = datetime.datetime.today().weekday()
 
     letra_dia_actual = letras_dias[num_dia_actual]
